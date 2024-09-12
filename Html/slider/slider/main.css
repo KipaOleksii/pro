@@ -1,0 +1,7 @@
+.total-block {
+    display: flex;
+    justify-content: space-around;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    }

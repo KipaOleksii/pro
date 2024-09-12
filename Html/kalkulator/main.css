@@ -1,0 +1,128 @@
+/* /* body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.main-button {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-element {
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="email"], input[type="password"], input[type="number"] {
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+}
+
+.form-button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #008CBA;
+    color: white;
+}
+
+.error-input {
+     border-color: red;
+     border-radius: 10px;
+     border: 2px solid red;
+} */
+
+
+/* .calc {
+width: 600px;
+margin: 0 auto;
+text-align: center;
+background-color:rgb(171, 171, 200);
+padding: 20px;
+border: 1px solid black;
+}
+
+.buts-block  button{
+    height: 50px;
+    width: 50px;
+    margin: 20px;
+}
+
+.iputs-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.iput-block {
+    flex: 1; 
+    padding: 20px;
+    border: 1px solid #ccc; 
+} */ 
+body {
+    font-family: Arial, sans-serif;
+}
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 50px auto;
+}
+
+.display {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    font-size: 24px;
+    text-align: right;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+button {
+    padding: 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.history {
+    margin-top: 20px;
+}
+
+.history ul {
+    list-style-type: none;
+    padding: 0;
+}

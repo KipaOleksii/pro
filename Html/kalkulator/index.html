@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./main.css">
+</head>
+
+<body>
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button onclick="appendToExpression('1')">1</button>
+            <button onclick="appendToExpression('2')">2</button>
+            <button onclick="appendToExpression('3')">3</button>
+            <button onclick="appendToExpression('+')">+</button>
+            <button onclick="appendToExpression('4')">4</button>
+            <button onclick="appendToExpression('5')">5</button>
+            <button onclick="appendToExpression('6')">6</button>
+            <button onclick="appendToExpression('-')">-</button>
+            <button onclick="appendToExpression('7')">7</button>
+            <button onclick="appendToExpression('8')">8</button>
+            <button onclick="appendToExpression('9')">9</button>
+            <button onclick="appendToExpression('*')">*</button>
+            <button onclick="appendToExpression('0')">0</button>
+            <button onclick="appendToExpression('/')">/</button>
+            <button onclick="calculateResult()">=</button>
+            <button onclick="clearExpression()">C</button>
+        </div>
+        <div class="history">
+            <h3>History</h3>
+            <button onclick="clearHistory()">Clear History</button>
+            <ul id="historyList"></ul>
+        </div>
+    </div>
+    <!-- <div class ='calc'>
+    <div class = 'buts-block'>
+        <button class='operation-button' id="btPl">+</button>
+        <button class='operation-button' id="btMin">-</button>
+        <button class='operation-button' id="btMult">*</button>
+        <button class='operation-button' id="btDe">/</button>
+    </div>
+    <hr>
+    <div class = 'iputs-block'>
+        <div class = 'iput-block'>
+            <label>Number 1</label>
+            <input type="number" id='number1'>
+        </div>
+        <div class = 'iput-block'>
+            <label>Number 2</label>
+            <input type="number"id='number2'>
+        </div>
+    </div>
+</div> -->
+    <!-- <input value="Oleksii" class="first-name" id="first-name">
+    <input value="Kipa" class="last-name" id="last-name">
+    <input value="Ukraine" class="adress" id="adress">
+    <select id="city">
+        <option>
+            Minsk
+        </option>
+        <option>
+            Kiev
+        </option>
+        <option selected='selected'>
+            Barcelona
+        </option>
+    </select>
+    <br>
+    <textarea id="hobi">JS,CSS,HTML</textarea>
+    <br>
+    <div id = "avatar">
+        <img src="data:image/jpeg;base64,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"
+         alt="photo">
+         <br>
+         <button id = 'but-class'>Send</button>
+    </div> -->
+    
+    <!-- <button class="main-button">Корзина</button>
+
+  <div class="form-container">
+      <div class="column">
+          <div class="form-element">
+              <input type="text" placeholder="Текстовое поле 1">
+              <button class="form-button">Купить!</button>
+          </div>
+          <div class="form-element">
+              <input type="email" placeholder="Email поле">
+              <button class="form-button">Купить!</button>
+          </div>
+          <div class="form-element">
+              <input type="password" placeholder="Пароль">
+              <button class="form-button">Купить!</button>
+          </div>
+          <div class="form-element">
+              <input type="number" placeholder="Числовое поле">
+              <button class="form-button">Купить!</button>
+          </div>
+      </div>
+
+      <div class="column">
+          <div class="form-element">
+              <input type="text" placeholder="Текстовое поле 2">
+              <button class="form-button">Купить!</button>
+          </div>
+          <div class="form-element">
+              <input type="text" placeholder="Текстовое поле 3">
+              <button class="form-button">Купить!</button>
+          </div>
+          <div class="form-element">
+              <input type="text" placeholder="Текстовое поле 4">
+              <button class="form-button">Купить!</button>
+          </div>
+          <div class="form-element">
+              <input type="text" placeholder="Текстовое поле 5">
+              <button class="form-button">Купить!</button>
+          </div>
+      </div>
+  </div> -->
+    <script src="main.js"></script>
+</body>
+
+</html>
