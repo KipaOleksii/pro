@@ -1,35 +1,36 @@
-import React from "react";
-import Profile from "./Profile";
-import { setUsersProfile } from "../../redux/profile-reducer";
-import axios from "axios";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { setUsersProfile } from "../../redux/profile-reducer";
+import Profile from "./Profile";
+import axios from "axios";
 
-class ProfileContainer extends React.Component {
 
-  componentDidMount() {
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/profile/2`)
-      .then((response) => {
-        this.props.setUsersProfile(response.data);
-      });
-  }
 
-  render() {
-    return (
-      <Profile {...this.props} profile = {this.props.profile}/>
-    );
-  }
-}
+const ProfileContainer = ({ setUsersProfile, profile }) => {
+  const { userId } = useParams();
 
-let mapStateToProps = (state) => {
-  return {
-    profile: state.profilePage.profile,
-  }
+  useEffect(() => {
+    const fetchUserProfile = async (userId) => {
+      try {
+        const response = await axios.get(
+          `https://social-network.samuraijs.com/api/1.0/profile/${userId}`
+        );
+        console.log(response.data);
+        setUsersProfile(response.data);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    };
+
+    fetchUserProfile(userId || 1);
+  }, [userId, setUsersProfile]);
+
+  return <Profile profile={profile} />;
 };
 
+const mapStateToProps = (state) => ({
+  profile: state.profilePage.profile,
+});
 
-let WithUrlDataContainerComponent = withRouter(ProfileContainer)
-
-export default connect(mapStateToProps, {setUsersProfile})(WithUrlDataContainerComponent);
+export default connect(mapStateToProps, { setUsersProfile })(ProfileContainer);

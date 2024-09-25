@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
-import ProfileContainer from "./components/Profile/Profile";
+import ProfileContainer from "./components/Profile/ProfileContainer";
 import Dialogs from "./components/Dialogs/Dialogs";
 import { Route, Routes } from "react-router-dom";
 import Music from "./components/Music/Music";
@@ -19,7 +19,7 @@ function App() {
       <Navbar />
       <div className="app-wrapper-content">
         <Routes>
-          <Route path="/profile" element={<ProfileContainer />} />
+          <Route path="/profile/:userId?" element={<ProfileContainer />} />
           <Route path="/dialogs/*" element={<Dialogs />} />
           <Route path="/news" element={<News />} />
           <Route path="/music" element={<Music />} />

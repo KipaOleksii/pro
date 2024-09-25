@@ -8,7 +8,6 @@ const store = configureStore({
       profilePage: profileReducer,
       dialogsPage: dialogsReducer,      
       usersPage: UsersReducer,
-
     },
   });
   
