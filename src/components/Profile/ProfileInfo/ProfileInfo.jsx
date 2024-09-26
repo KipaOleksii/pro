@@ -4,7 +4,7 @@ import PreLoader from "../../common/Preloader/Preloader";
 
 const ProfileInfo = (props) => {
   if (!props.profile) {
-    return <PreLoader />; 
+    return <PreLoader />;
   }
 
   return (
@@ -19,12 +19,14 @@ const ProfileInfo = (props) => {
         </div>
         <div className={s.info}>
           <p>
-          <img src={props.profile.photos.large} alt="User avatar" />
+            <img src={props.profile.photos.large} alt="User avatar" />
           </p>
           <p>
-            {props.profile.aboutMe}
-            {props.profile.fullName}
-            {props.profile.lookingForAJobDescription}
+            Full Name: {props.profile.fullName}
+            <br />
+            About me: {props.profile.aboutMe}
+            <br />
+            Description: {props.profile.lookingForAJobDescription}
           </p>
         </div>
       </div>

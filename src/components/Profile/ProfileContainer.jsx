@@ -16,13 +16,12 @@ const ProfileContainer = ({ setUsersProfile, profile }) => {
         const response = await axios.get(
           `https://social-network.samuraijs.com/api/1.0/profile/${userId}`
         );
-        console.log(response.data);
         setUsersProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
     };
-
+    
     fetchUserProfile(userId || 1);
   }, [userId, setUsersProfile]);
 
