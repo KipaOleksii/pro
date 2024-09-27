@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching } from "../../redux/users-reducer";
-import axios from "axios";
 import Users from "./Users";
 import PreLoader from "../common/Preloader/Preloader";
+import { usersAPI } from "../../api/api";
 
 const UsersContainer = ({
   users,
@@ -24,34 +24,28 @@ const UsersContainer = ({
     const fetchUsers = async () => {
       toggleIsFetching(true); // Устанавливаем флаг загрузки
       try {
-        const response = await axios.get(
-          `https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`,
-          { withCredentials: true }
-        );
+        const response = await usersAPI.getUsersPage(currentPage, pageSize); // Получаем пользователей
         toggleIsFetching(false); // Убираем флаг загрузки
-        setUsers(response.data.items);
-        setTotalUsersCount(response.data.totalCount);
+        setUsers(response.items); // Устанавливаем пользователей
+        setTotalUsersCount(response.totalCount); // Устанавливаем общее количество пользователей
       } catch (error) {
         console.error("Ошибка при загрузке пользователей:", error);
-        toggleIsFetching(false);
+        toggleIsFetching(false); // Останавливаем загрузку в случае ошибки
       }
     };
-    fetchUsers();
-  }, [currentPage, pageSize, setUsers, setTotalUsersCount, toggleIsFetching]); // Зависимости, при изменении которых эффект будет выполнен снова
+    fetchUsers(); // Вызываем функцию загрузки пользователей
+  }, [currentPage, pageSize, setUsers, setTotalUsersCount, toggleIsFetching]); // Зависимости
 
   const onPageChanged = async (pageNumber) => {
     setCurrentPage(pageNumber); // Устанавливаем текущую страницу
     toggleIsFetching(true); // Устанавливаем флаг загрузки
     try {
-      const response = await axios.get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${pageSize}`,
-        { withCredentials: true }
-      );
+      const response = await usersAPI.getUsersPage(pageNumber, pageSize); // Загружаем данные для новой страницы
       toggleIsFetching(false); // Убираем флаг загрузки
-      setUsers(response.data.items);
+      setUsers(response.items); // Устанавливаем пользователей для новой страницы
     } catch (error) {
       console.error("Ошибка при смене страницы:", error);
-      toggleIsFetching(false);
+      toggleIsFetching(false); // Останавливаем загрузку в случае ошибки
     }
   };
 

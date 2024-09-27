@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { connect } from "react-redux";
 import { setUsersProfile } from "../../redux/profile-reducer";
 import Profile from "./Profile";
-import axios from "axios";
+import { usersAPI } from "../../api/api";
 
 
 
@@ -13,9 +13,7 @@ const ProfileContainer = ({ setUsersProfile, profile }) => {
   useEffect(() => {
     const fetchUserProfile = async (userId) => {
       try {
-        const response = await axios.get(
-          `https://social-network.samuraijs.com/api/1.0/profile/${userId}`
-        );
+        const response = await usersAPI.getProfile(userId);
         setUsersProfile(response.data);
       } catch (error) {
         console.error("Error fetching profile:", error);

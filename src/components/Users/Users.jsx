@@ -2,7 +2,7 @@ import React from "react";
 import s from "./Users.module.css";
 import userPhoto from "../img/1077114.png";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
+import { usersAPI } from "../../api/api";
 
 let Users = (props) => {
   let pageCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -18,6 +18,29 @@ let Users = (props) => {
   for (let i = startPage; i <= endPage; i++) {
     pages.push(i);
   }
+
+  // Функция для обработки Follow/Unfollow
+  const handleFollowUnfollow = async (user) => {
+    if (user.followed) {
+      try {
+        const response = await usersAPI.unfollowUser(user.id);
+        if (response.data.resultCode === 0) {
+          props.unfollow(user.id);
+        }
+      } catch (error) {
+        console.error("Error while unfollowing:", error);
+      }
+    } else {
+      try {
+        const response = await usersAPI.followUser(user.id);
+        if (response.data.resultCode === 0) {
+          props.follow(user.id);
+        }
+      } catch (error) {
+        console.error("Error while following:", error);
+      }
+    }
+  };
 
   return (
     <div className={s.block}>
@@ -68,33 +91,7 @@ let Users = (props) => {
                 alt="user"
               />
             </NavLink>
-            <button
-              onClick={() => {
-                if (u.followed) {
-                  axios
-                    .delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {
-                      withCredentials: true,
-                      headers: { "API-KEY": "33ba9bdb-d8ce-48bd-8d69-b85f027410d6" },
-                    })
-                    .then((response) => {
-                      if (response.data.resultCode === 0) {
-                        props.unfollow(u.id);
-                      }
-                    });
-                } else {
-                  axios
-                    .post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`, {}, {
-                      withCredentials: true,
-                      headers: { "API-KEY": "33ba9bdb-d8ce-48bd-8d69-b85f027410d6" },
-                    })
-                    .then((response) => {
-                      if (response.data.resultCode === 0) {
-                        props.follow(u.id);
-                      }
-                    });
-                }
-              }}
-            >
+            <button onClick={() => handleFollowUnfollow(u)}>
               {u.followed ? "Unfollow" : "Follow"}
             </button>
           </div>
