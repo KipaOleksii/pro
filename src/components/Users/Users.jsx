@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./Users.module.css";
+import style from "./Users.module.css";
 import userPhoto from "../img/1077114.png";
 import { NavLink } from "react-router-dom";
 
@@ -37,9 +37,9 @@ const handleFollowUnfollow = async (u) => {
 
 
   return (
-    <div className={s.block}>
+    <div className={style.block}>
       {/* Пагинация */}
-      <div className={s.pagination}>
+      <div className={style.pagination}>
         {currentPortion > 1 && (
           <>
             <button onClick={() => props.onPageChanged(1)}>First</button>
@@ -53,7 +53,7 @@ const handleFollowUnfollow = async (u) => {
         {pages.map((p) => (
           <span
             key={p}
-            className={props.currentPage === p ? s.selectedPage : s.pageNumber}
+            className={props.currentPage === p ? style.selectedPage : style.pageNumber}
             onClick={() => props.onPageChanged(p)}
             style={{ cursor: "pointer" }}
           >
@@ -69,18 +69,18 @@ const handleFollowUnfollow = async (u) => {
         )}
 
         {/* Текущая страница и общее количество страниц */}
-        <div className={s.pageInfo}>
+        <div className={style.pageInfo}>
           Page {props.currentPage} of {pageCount}
         </div>
       </div>
 
       {/* Отображение пользователей */}
       {props.users.map((u) => (
-        <div key={u.id} className={s.user}>
-          <div className={s.userLeft}>
+        <div key={u.id} className={style.user}>
+          <div className={style.userLeft}>
             <NavLink to={"/profile/" + u.id}>
               <img
-                className={s.photoImg}
+                className={style.photoImg}
                 src={u.photos.small != null ? u.photos.small : userPhoto}
                 alt="user"
               />
@@ -93,7 +93,7 @@ const handleFollowUnfollow = async (u) => {
 </button>
 
           </div>
-          <div className={s.userRight}>
+          <div className={style.userRight}>
             <div>{u.name}</div>
             <div>{u.status}</div>
             <div>ID: {u.id}</div>

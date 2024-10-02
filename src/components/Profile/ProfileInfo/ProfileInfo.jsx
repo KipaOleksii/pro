@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./ProfileInfo.module.css";
+import style from "./ProfileInfo.module.css";
 import PreLoader from "../../common/Preloader/Preloader";
 
 const ProfileInfo = (props) => {
@@ -9,15 +9,15 @@ const ProfileInfo = (props) => {
 
   return (
     <div>
-      <div className={s.descriptionBlock}>
+      <div className={style.descriptionBlock}>
         <div>
           <img
-            className={s.img}
+            className={style.img}
             src="https://img.freepik.com/premium-photo/image-background_9493-6963.jpg"
             alt="background"
           />
         </div>
-        <div className={s.info}>
+        <div className={style.info}>
           <p>
             <img src={props.profile.photos.large} alt="User avatar" />
           </p>

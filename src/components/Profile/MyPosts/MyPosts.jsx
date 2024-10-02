@@ -1,6 +1,6 @@
 import React from "react";
 import Post from "./Post/Post";
-import s from "./MyPosts.module.css";
+import style from "./MyPosts.module.css";
 
 const MyPosts = (props) => {
   const postsElements = props.posts.map((p) => (
@@ -17,7 +17,7 @@ const MyPosts = (props) => {
   };
 
   return (
-    <div className={s.postsBlock}>
+    <div className={style.postsBlock}>
       <h3>My posts</h3>
       <div>
         <div>
@@ -31,7 +31,7 @@ const MyPosts = (props) => {
           <button onClick={onAddPost}>Add post</button>
         </div>
       </div>
-      <div className={s.posts}>{postsElements}</div>
+      <div className={style.posts}>{postsElements}</div>
     </div>
   );
 };

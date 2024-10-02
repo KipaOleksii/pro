@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./Dialogs.module.css";
+import style from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,14 +29,14 @@ const Dialogs = () => {
   };
 
   return (
-    <div className={s.dialogs}>
-      <div className={s.dialogItems}>
+    <div className={style.dialogs}>
+      <div className={style.dialogItems}>
         {dialogsElements}
       </div>
-      <div className={s.messages}>
+      <div className={style.messages}>
         {messagesElements}
       </div>
-      <div className={s.text}>
+      <div className={style.text}>
         <div>
           <textarea 
             value={newMessageBody} 
