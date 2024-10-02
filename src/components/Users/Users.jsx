@@ -2,7 +2,6 @@ import React from "react";
 import s from "./Users.module.css";
 import userPhoto from "../img/1077114.png";
 import { NavLink } from "react-router-dom";
-import { usersAPI } from "../../api/api";
 
 let Users = (props) => {
   let pageCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -19,28 +18,23 @@ let Users = (props) => {
     pages.push(i);
   }
 
-  // Функция для обработки Follow/Unfollow
-  const handleFollowUnfollow = async (user) => {
-    if (user.followed) {
-      try {
-        const response = await usersAPI.unfollowUser(user.id);
-        if (response.data.resultCode === 0) {
-          props.unfollow(user.id);
-        }
-      } catch (error) {
-        console.error("Error while unfollowing:", error);
-      }
+ // Функция для обработки Follow/Unfollow
+const handleFollowUnfollow = async (u) => {
+  props.toggleFollowingInProgress(true, u.id); // Устанавливаем флаг загрузки
+
+  try {
+    if (u.followed) {
+      await props.unfollowUser(u.id); // Отписываемся от пользователя
     } else {
-      try {
-        const response = await usersAPI.followUser(user.id);
-        if (response.data.resultCode === 0) {
-          props.follow(user.id);
-        }
-      } catch (error) {
-        console.error("Error while following:", error);
-      }
+      await props.followUser(u.id); // Подписываемся на пользователя
     }
-  };
+  } catch (error) {
+    console.error("Error while following/unfollowing:", error);
+  } finally {
+    props.toggleFollowingInProgress(false, u.id); // Снимаем флаг загрузки
+  }
+};
+
 
   return (
     <div className={s.block}>
@@ -91,9 +85,13 @@ let Users = (props) => {
                 alt="user"
               />
             </NavLink>
-            <button onClick={() => handleFollowUnfollow(u)}>
-              {u.followed ? "Unfollow" : "Follow"}
-            </button>
+            <button
+  disabled={props.followingInProgress.some((id) => id === u.id)} 
+  onClick={() => handleFollowUnfollow(u)}
+>
+  {u.followed ? "Unfollow" : "Follow"}
+</button>
+
           </div>
           <div className={s.userRight}>
             <div>{u.name}</div>

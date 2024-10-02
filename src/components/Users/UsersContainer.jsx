@@ -1,9 +1,20 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching } from "../../redux/users-reducer";
+import {
+  follow,
+  unfollow,
+  setUsers,
+  setCurrentPage,
+  setTotalUsersCount,
+  toggleIsFetching,
+  toggleFollowingInProgress,
+  getUsers,
+  getPages,
+  followUser,
+  unfollowUser,
+} from "../../redux/users-reducer";
 import Users from "./Users";
 import PreLoader from "../common/Preloader/Preloader";
-import { usersAPI } from "../../api/api";
 
 const UsersContainer = ({
   users,
@@ -13,40 +24,19 @@ const UsersContainer = ({
   isFetching,
   follow,
   unfollow,
-  setUsers,
-  setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching
+  toggleFollowingInProgress,
+  followingInProgress,
+  getUsers, 
+  getPages,
+  followUser,
+  unfollowUser,
 }) => {
-  
   useEffect(() => {
-    // Этот эффект выполняется при монтировании компонента
-    const fetchUsers = async () => {
-      toggleIsFetching(true); // Устанавливаем флаг загрузки
-      try {
-        const response = await usersAPI.getUsersPage(currentPage, pageSize); // Получаем пользователей
-        toggleIsFetching(false); // Убираем флаг загрузки
-        setUsers(response.items); // Устанавливаем пользователей
-        setTotalUsersCount(response.totalCount); // Устанавливаем общее количество пользователей
-      } catch (error) {
-        console.error("Ошибка при загрузке пользователей:", error);
-        toggleIsFetching(false); // Останавливаем загрузку в случае ошибки
-      }
-    };
-    fetchUsers(); // Вызываем функцию загрузки пользователей
-  }, [currentPage, pageSize, setUsers, setTotalUsersCount, toggleIsFetching]); // Зависимости
+    getUsers(currentPage, pageSize); // Диспатчим getUsers через props
+  }, [currentPage, pageSize, getUsers]);
 
-  const onPageChanged = async (pageNumber) => {
-    setCurrentPage(pageNumber); // Устанавливаем текущую страницу
-    toggleIsFetching(true); // Устанавливаем флаг загрузки
-    try {
-      const response = await usersAPI.getUsersPage(pageNumber, pageSize); // Загружаем данные для новой страницы
-      toggleIsFetching(false); // Убираем флаг загрузки
-      setUsers(response.items); // Устанавливаем пользователей для новой страницы
-    } catch (error) {
-      console.error("Ошибка при смене страницы:", error);
-      toggleIsFetching(false); // Останавливаем загрузку в случае ошибки
-    }
+  const onPageChanged = (pageNumber) => {
+    getPages(pageNumber, pageSize); // Диспатчим getPages через props
   };
 
   return (
@@ -60,6 +50,10 @@ const UsersContainer = ({
         users={users}
         follow={follow}
         unfollow={unfollow}
+        toggleFollowingInProgress={toggleFollowingInProgress}
+        followingInProgress={followingInProgress}
+        followUser={followUser}
+        unfollowUser={unfollowUser} 
       />
     </>
   );
@@ -72,6 +66,7 @@ const mapStateToProps = (state) => {
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
+    followingInProgress: state.usersPage.followingInProgress,
   };
 };
 
@@ -82,4 +77,9 @@ export default connect(mapStateToProps, {
   setCurrentPage,
   setTotalUsersCount,
   toggleIsFetching,
+  toggleFollowingInProgress,
+  getUsers,
+  getPages,
+  followUser,
+  unfollowUser,  
 })(UsersContainer);

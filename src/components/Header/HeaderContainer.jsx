@@ -1,19 +1,13 @@
 import React, { useEffect } from "react";
 import Header from "./Header";
 import { connect } from "react-redux";
-import { setAuthUserData } from "../../redux/auth-reducer";
-import { usersAPI } from "../../api/api";
+import { getLoginData } from "../../redux/auth-reducer";
 
-const HeaderContainer = ({ setAuthUserData, isAuth, login }) => {
+const HeaderContainer = ({ isAuth, login, getLoginData }) => {
   useEffect(() => {
-    usersAPI.getLogin()
-      .then((response) => {
-        if (response.data.resultCode === 0) {
-          let { id, email, login } = response.data.data;
-          setAuthUserData(id, email, login);
-        }
-      });
-  }, [setAuthUserData]);
+    getLoginData(); // Вызов функции через props
+
+  }, [getLoginData]); // Указываем getLoginData в качестве зависимости
 
   return <Header isAuth={isAuth} login={login} />;
 };
@@ -23,4 +17,4 @@ const mapStateToProps = (state) => ({
   login: state.auth.login,
 });
 
-export default connect(mapStateToProps, { setAuthUserData })(HeaderContainer);
+export default connect(mapStateToProps, { getLoginData })(HeaderContainer);
