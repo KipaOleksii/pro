@@ -2,10 +2,12 @@ import React from "react";
 import style from "./ProfileInfo.module.css";
 import PreLoader from "../../common/Preloader/Preloader";
 
-const ProfileInfo = (props) => {
-  if (!props.profile) {
+const ProfileInfo = ({ profile }) => {
+  if (!profile) {
     return <PreLoader />;
   }
+
+  const { photos, fullName, aboutMe, lookingForAJobDescription } = profile;
 
   return (
     <div>
@@ -19,14 +21,14 @@ const ProfileInfo = (props) => {
         </div>
         <div className={style.info}>
           <p>
-            <img src={props.profile.photos.large} alt="User avatar" />
+            <img src={photos.large} alt="User avatar" />
           </p>
           <p>
-            Full Name: {props.profile.fullName}
+            Full Name: {fullName}
             <br />
-            About me: {props.profile.aboutMe}
+            About me: {aboutMe}
             <br />
-            Description: {props.profile.lookingForAJobDescription}
+            Description: {lookingForAJobDescription}
           </p>
         </div>
       </div>
