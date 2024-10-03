@@ -2,13 +2,9 @@ import React from "react";
 import style from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import { useDispatch, useSelector } from "react-redux";
-import { sendMessageCreator, updateNewMessageBodyCreator } from "../../redux/dialogs-reducer";
+import { Navigate } from "react-router-dom";
 
-const Dialogs = () => {
-  const dispatch = useDispatch();
-  const dialogsPage = useSelector((state) => state.dialogsPage);
-
+const Dialogs = ({ dialogsPage, onSendMessageClick, onNewMessageChange, isAuth }) => {
   const dialogsElements = dialogsPage.dialogs.map(d => (
     <DialogItem name={d.name} id={d.id} avatar={d.avatar} key={d.id} />
   ));
@@ -19,15 +15,9 @@ const Dialogs = () => {
 
   const newMessageBody = dialogsPage.newMessageBody;
 
-  const onSendMessageClick = () => {
-    dispatch(sendMessageCreator());
+  const handleNewMessageChange = (e) => {
+    onNewMessageChange(e.target.value);
   };
-
-  const onNewMessageChange = (e) => {
-    const body = e.target.value;
-    dispatch(updateNewMessageBodyCreator(body));
-  };
-
   return (
     <div className={style.dialogs}>
       <div className={style.dialogItems}>
@@ -40,7 +30,7 @@ const Dialogs = () => {
         <div>
           <textarea 
             value={newMessageBody} 
-            onChange={onNewMessageChange} 
+            onChange={handleNewMessageChange} 
             placeholder="Enter your text"
           />
         </div>

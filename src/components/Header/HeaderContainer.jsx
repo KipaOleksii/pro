@@ -8,7 +8,7 @@ const HeaderContainer = ({ isAuth, login, getLoginData }) => {
     getLoginData(); // Вызов функции через props
 
   }, [getLoginData]); // Указываем getLoginData в качестве зависимости
-
+  
   return <Header isAuth={isAuth} login={login} />;
 };
 
