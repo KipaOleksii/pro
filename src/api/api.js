@@ -29,4 +29,7 @@ export const usersAPI = {
     getLogin() {
         return instance.get(`auth/me`);
     },
+    getStatus(userId) {
+        return instance.get(`profile/status/${userId}`);
+    },
 };

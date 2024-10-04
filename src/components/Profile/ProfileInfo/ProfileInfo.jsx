@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./ProfileInfo.module.css";
 import PreLoader from "../../common/Preloader/Preloader";
+import StatusContainer from "./StatusContainer";
 
 const ProfileInfo = ({ profile }) => {
   if (!profile) {
@@ -20,6 +21,7 @@ const ProfileInfo = ({ profile }) => {
           />
         </div>
         <div className={style.info}>
+        <StatusContainer status="Enter status..."/>
           <p>
             <img src={photos.large} alt="User avatar" />
           </p>

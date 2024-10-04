@@ -3,6 +3,8 @@ import { usersAPI } from "../api/api";
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USERS_PROFILE = "SET_USERS_PROFILE";
+const SET_STATUS = "SET_STATUS";
+
 
 let initialState = {
   posts: [
@@ -30,6 +32,7 @@ let initialState = {
   ],
   newPostText: "",
   profile: null,
+  status: "",
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -57,6 +60,11 @@ const profileReducer = (state = initialState, action) => {
           ...state,
           profile: action.profile,
         };
+        case SET_STATUS:
+      return {
+        ...state,
+        status: action.status,
+      };
     default:
       return state;
   };
@@ -69,6 +77,8 @@ export const updateNewPostTextActionCreator = (text) => ({
 });
 export const setUsersProfile = (profile) => ({ type: SET_USERS_PROFILE, profile });
 
+export const setStatus = (status) => ({ type: SET_STATUS, status });
+
 export const getUserProfile = (userId) => {
   return async (dispatch) => {
     try {
@@ -79,6 +89,16 @@ export const getUserProfile = (userId) => {
     }
   };
 };
+export const getStatus = (userId) => {
+  return async (dispatch) => {
+    try {
+      const response = await usersAPI.getStatus(userId || 11); // Используем 11, если userId не передан
+      dispatch(setStatus(response.data)); // Диспатчим полученный статус
+    } catch (error) {
+      console.error("Error fetching status:", error); // ��овим ошибки, если они возникли
+    }
+  }
+}
 
 
 export default profileReducer;

@@ -6,7 +6,7 @@ import Profile from "./Profile";
 import { compose } from "redux";
 import withAuthRedirect from "../hoc/withAuthRedirect";
 
-const ProfileContainer = ({ profile, getUserProfile, isAuth }) => {
+const ProfileContainer = ({ profile, getUserProfile }) => {
   const { userId } = useParams(); // Получаем userId из параметров URL
 
   useEffect(() => {
