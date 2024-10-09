@@ -82,7 +82,7 @@ export const setStatus = (status) => ({ type: SET_STATUS, status });
 export const getUserProfile = (userId) => {
   return async (dispatch) => {
     try {
-      const response = await usersAPI.getProfile(userId || 11); // Используем 11, если userId не передан
+      const response = await usersAPI.getProfile(userId || 31687); // Используем 31687, если userId не передан
       dispatch(setUsersProfile(response.data)); // Диспатчим полученные данные профиля
     } catch (error) {
       console.error("Error fetching profile:", error); // Ловим ошибки, если они возникли
@@ -92,12 +92,24 @@ export const getUserProfile = (userId) => {
 export const getStatus = (userId) => {
   return async (dispatch) => {
     try {
-      const response = await usersAPI.getStatus(userId || 11); // Используем 11, если userId не передан
+      const response = await usersAPI.getStatus(userId || 31687); // Используем 31687, если userId не передан
       dispatch(setStatus(response.data)); // Диспатчим полученный статус
     } catch (error) {
-      console.error("Error fetching status:", error); // ��овим ошибки, если они возникли
+      console.error("Error fetching status:", error); // lовим ошибки, если они возникли
     }
   }
+}
+export const UpdateStatus = (status) => {
+  return async (dispatch) => {
+    try {
+      const response = await usersAPI.getUpdateStatus(status);
+      if (response.data.resultCode === 0) {
+        dispatch(setStatus(status)); // Вызываем экшен с полученным статусом
+      }
+    } catch (error) {
+      console.error("Error updating status:", error); // lовим ошибки, если они возникли
+    }
+  };
 }
 
 

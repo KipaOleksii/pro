@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Status from "./Status";
 import { useParams } from "react-router-dom";
-import { getStatus } from "../../../redux/profile-reducer";
+import { getStatus, UpdateStatus } from "../../../redux/profile-reducer";
 import { connect } from "react-redux";
 
 const StatusContainer = (props) => {
@@ -25,6 +25,7 @@ const StatusContainer = (props) => {
 
   const deactivateEditMode = () => {
     setEditMode(false);
+    props.UpdateStatus(status); // Вызываем UpdateStatus через props с текущим статусом
   };
 
   const onStatusChange = (e) => {
@@ -46,4 +47,4 @@ const mapStateToProps = (state) => ({
   status: state.profilePage.status, // Берем статус из state Redux
 });
 
-export default connect(mapStateToProps, { getStatus })(StatusContainer);
+export default connect(mapStateToProps, { getStatus, UpdateStatus })(StatusContainer);

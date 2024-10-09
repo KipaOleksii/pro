@@ -9,8 +9,8 @@ import Settings from "./components/Settings/Settings";
 import Friends from "./components/Friends/Friends";
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
-import Login from "./components/Login/login";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import LoginForm from "./components/Login/login";
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
           <Route path="/settings" element={<Settings />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/users" element={<UsersContainer />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<LoginForm />} />
         </Routes>
       </div>
     </div>
