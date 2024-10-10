@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Status from "./Status";
 import { useParams } from "react-router-dom";
-import { getStatus, UpdateStatus } from "../../../redux/profile-reducer";
+import { getStatus, updateStatus } from "../../../redux/profile-reducer";
 import { connect } from "react-redux";
 
 const StatusContainer = (props) => {
@@ -47,4 +47,4 @@ const mapStateToProps = (state) => ({
   status: state.profilePage.status, // Берем статус из state Redux
 });
 
-export default connect(mapStateToProps, { getStatus, UpdateStatus })(StatusContainer);
+export default connect(mapStateToProps, { getStatus, updateStatus })(StatusContainer);
