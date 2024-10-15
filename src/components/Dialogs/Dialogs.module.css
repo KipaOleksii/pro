@@ -1,23 +1,62 @@
 .dialogs {
-  display: grid;
-  grid-template-columns: 2fr 10fr;
+  display: flex;
+  height: 100vh;
+  background-color: #f0f0f0; /* Светло-серый фон */
+  font-family: Arial, sans-serif;
+}
+
+.dialogPanel {
+  width: 300px; /* Фиксированная ширина панели */
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff; /* Белый фон для панели */
+  border-right: 1px solid #ddd; /* Серая граница справа */
+  justify-content: space-between; /* Выровнять диалоги и форму ввода */
 }
 
 .dialogItems {
-  padding: 20px;
-}
-
-.dialog {
-  padding: 10px;
+  overflow-y: auto; /* Прокрутка при переполнении */
+  flex-grow: 1; /* Расширение панели диалогов */
 }
 
 .messages {
-  padding: 10px;
-  color: blueviolet;
+  flex: 1; /* Занимает оставшееся пространство */
+  padding: 10px; /* Отступы для содержимого сообщений */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* Сообщения будут внизу */
+  background-color: #ffffff; /* Белый фон для сообщений */
 }
 
-.message {
-  padding: 10px;
+.text {
+  padding: 10px; /* Отступы для формы ввода */
+  border-top: 1px solid #ddd; /* Серая граница сверху */
+  background-color: #ffffff; /* Белый фон для формы */
+}
+
+.textarea {
+  width: 100%; /* Ширина текстовой области на всю панель */
+  height: 60px; /* Высота текстовой области */
+  border: 1px solid #ddd; /* Серая граница текстовой области */
+  border-radius: 4px; /* Скругление углов */
+  padding: 10px; /* Отступы внутри текстовой области */
+  font-size: 14px; /* Размер шрифта */
+  resize: none; /* Отключение изменения размера текстовой области */
+}
+
+.submitButton {
+  margin-top: 10px; /* Отступ сверху для кнопки */
+  padding: 10px; /* Отступы внутри кнопки */
+  border: none; /* Без границ */
+  border-radius: 4px; /* Скругление углов */
+  background-color: #4caf50; /* Зеленый фон для кнопки */
+  color: white; /* Белый текст на кнопке */
+  font-size: 16px; /* Размер шрифта кнопки */
+  cursor: pointer; /* Указатель при наведении */
+}
+
+.submitButton:hover {
+  background-color: #45a049; /* Темно-зеленый фон при наведении */
 }
 
 .avatar {
@@ -27,7 +66,9 @@
   margin-right: 10px;
 }
 
-.text {
-  padding-left: 300px;
-  padding-top: 10px;
+.errorMessage {
+  color: red; /* Красный текст для ошибки */
+  margin-top: 10px; /* Отступ сверху для ошибки */
+  font-size: 14px; /* Размер шрифта ошибки */
+  text-align: center; /* Центрирование текста ошибки */
 }

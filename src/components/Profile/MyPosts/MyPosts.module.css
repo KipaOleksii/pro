@@ -7,3 +7,7 @@
 .posts {
     padding: 10px;
 }
+.errorMessage {
+    color: red;
+    padding: 5px;
+}

@@ -34,5 +34,11 @@ export const usersAPI = {
     },
     getUpdateStatus(status) {
         return instance.put(`profile/status`, { status });
+    },
+    login(email, password, rememberMe = false) {
+        return instance.post(`auth/login`, {email, password, rememberMe});
+    },
+    logout() {
+        return instance.delete(`auth/login`);
     }
 };

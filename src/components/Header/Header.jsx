@@ -2,7 +2,7 @@ import React from "react";
 import style from './Header.module.css';
 import { NavLink } from "react-router-dom";
 
-const Header = ({ isAuth, login }) => {
+const Header = ({ isAuth, login, logout }) => {
   return (
     <header className={style.header}>
       <img 
@@ -11,8 +11,10 @@ const Header = ({ isAuth, login }) => {
       />
       <div className={style.login}>
         {isAuth ? (
-          // Проверяем, что login — строка, если нет, то показываем резервный текст
-          typeof login === "string" ? login : "User"
+          <>
+            {login ? login : "User"} 
+            <button onClick={logout}>Logout</button>
+          </>
         ) : (
           <NavLink to="/login">Login</NavLink>
         )}

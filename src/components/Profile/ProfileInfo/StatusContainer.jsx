@@ -25,7 +25,7 @@ const StatusContainer = (props) => {
 
   const deactivateEditMode = () => {
     setEditMode(false);
-    props.UpdateStatus(status); // Вызываем UpdateStatus через props с текущим статусом
+    props.updateStatus(status); // Вызываем UpdateStatus через props с текущим статусом
   };
 
   const onStatusChange = (e) => {
@@ -44,7 +44,8 @@ const StatusContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  status: state.profilePage.status, // Берем статус из state Redux
+  status: state.profilePage.status,
+   // Берем статус из state Redux
 });
 
 export default connect(mapStateToProps, { getStatus, updateStatus })(StatusContainer);

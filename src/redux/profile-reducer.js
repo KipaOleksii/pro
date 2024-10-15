@@ -3,7 +3,8 @@ import { usersAPI } from "../api/api";
 const ADD_POST = "ADD-POST";
 const SET_USERS_PROFILE = "SET_USERS_PROFILE";
 const SET_STATUS = "SET_STATUS";
-const SET_ERROR = "SET_ERROR"; // Добавлено для обработки ошибок
+const UPDATE_STATUS = "UPDATE_STATUS";
+const SET_ERROR = "SET_ERROR";
 
 let initialState = {
   posts: [
@@ -28,7 +29,7 @@ let initialState = {
   ],
   profile: null,
   status: "",
-  error: null, // Для хранения возможных ошибок
+  error: null, 
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -54,7 +55,12 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         status: action.status,
       };
-    case SET_ERROR: // Для обработки ошибок
+      case UPDATE_STATUS:
+        return {
+         ...state,
+          status: action.status,
+        };
+    case SET_ERROR:
       return {
         ...state,
         error: action.error,
@@ -70,7 +76,9 @@ export const setUsersProfile = (profile) => ({ type: SET_USERS_PROFILE, profile 
 
 export const setStatus = (status) => ({ type: SET_STATUS, status });
 
-export const setError = (error) => ({ type: SET_ERROR, error }); // Экшен для обработки ошибок
+export const setUpdateStatus = (status) => ({ type: UPDATE_STATUS, status});
+
+export const setError = (error) => ({ type: SET_ERROR, error });
 
 export const getUserProfile = (userId) => {
   return async (dispatch) => {
@@ -97,7 +105,7 @@ export const getStatus = (userId) => {
 export const updateStatus = (status) => {
   return async (dispatch) => {
     try {
-      const response = await usersAPI.updateStatus(status); 
+      const response = await usersAPI.getUpdateStatus(status); 
       if (response.data.resultCode === 0) {
         dispatch(setStatus(status)); 
       }
