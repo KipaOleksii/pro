@@ -13,10 +13,10 @@ import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import Login from "./components/Login/login";
 import PreLoader from "./components/common/Preloader/Preloader";
 import { compose } from "redux";
-import { connect } from "react-redux"; // Необходимо подключить connect
-import { initializeApp } from "./redux/app-reducer"; // Исправить импорт
+import { connect } from "react-redux"; 
+import { initializeApp } from "./redux/app-reducer"; 
 
-function App({ initializeApp, initialized }) { // Деструктуризация props
+function App({ initializeApp, initialized }) { 
   useEffect(() => {
     initializeApp();
   }, [initializeApp]);

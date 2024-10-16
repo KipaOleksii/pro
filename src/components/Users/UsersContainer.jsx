@@ -17,6 +17,7 @@ import Users from "./Users";
 import PreLoader from "../common/Preloader/Preloader";
 import { compose } from "redux";
 import withAuthRedirect from "../hoc/withAuthRedirect";
+import { getAllUsers, getPageSize, getTotalUsersCount, getcurrentPage, getIsFetching, getFollowingInProgress } from "../../redux/users-selectors";
 
 const UsersContainer = ({
   users,
@@ -63,14 +64,26 @@ const UsersContainer = ({
 
 const mapStateToProps = (state) => {
   return {
-    users: state.usersPage.users,
-    pageSize: state.usersPage.pageSize,
-    totalUsersCount: state.usersPage.totalUsersCount,
-    currentPage: state.usersPage.currentPage,
-    isFetching: state.usersPage.isFetching,
-    followingInProgress: state.usersPage.followingInProgress,
+    users: getAllUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getcurrentPage(state),
+    isFetching: getIsFetching(state),
+    followingInProgress: getFollowingInProgress(state),
   };
 };
+
+
+// const mapStateToProps = (state) => {
+//   return {
+//     users: state.usersPage.users,
+//     pageSize: state.usersPage.pageSize,
+//     totalUsersCount: state.usersPage.totalUsersCount,
+//     currentPage: state.usersPage.currentPage,
+//     isFetching: state.usersPage.isFetching,
+//     followingInProgress: state.usersPage.followingInProgress,
+//   };
+// };
 
 export default compose ( connect(mapStateToProps, {
   follow,
