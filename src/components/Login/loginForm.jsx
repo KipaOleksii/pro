@@ -5,7 +5,7 @@ import styles from './login.module.css';
 import { connect } from 'react-redux';
 import { login } from '../../redux/auth-reducer';
 
-const LoginForm = ({ login, isAuth }) => {
+const LoginForm = ({ login }) => {
   const [serverError, setServerError] = useState(''); // Состояние для ошибок с сервера
 
   const initialValues = {

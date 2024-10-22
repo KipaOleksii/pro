@@ -21,15 +21,14 @@ const appReducer = (state = initialState, action) => {
 export const initializedSuccess = () => ({ type: SET_INITIALIZED });
 
 export const initializeApp = () => (dispatch) => {
-    let promise = dispatch(getLoginData());
-    
-    Promise.all([promise])
-    .then(() => {
-        dispatch(initializedSuccess());
-    })
-    .catch((error) => {
-        console.error("Error during initialization:", error);
-    });
-}
+    dispatch(getLoginData())
+        .then(() => {
+            dispatch(initializedSuccess());
+        })
+        .catch((error) => {
+            console.error("Error during initialization:", error);
+        });
+};
+
 
 export default appReducer;
