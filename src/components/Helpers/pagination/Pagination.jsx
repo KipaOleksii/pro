@@ -5,7 +5,7 @@ const PaginationPage = ({ totalUsersCount, pageSize, currentPage, onPageChanged 
   let pageCount = Math.ceil(totalUsersCount / pageSize);
   let pages = [];
 
-  const portionSize = 5;
+  const portionSize = 10;
   const currentPortion = Math.floor((currentPage - 1) / portionSize) + 1;
   const totalPortions = Math.ceil(pageCount / portionSize);
 

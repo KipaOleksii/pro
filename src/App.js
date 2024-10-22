@@ -31,11 +31,11 @@ function App({ initializeApp, initialized }) {
         <Routes>
           <Route path="/profile/:userId?" element={<ProfileContainer />} />
           <Route path="/dialogs/*" element={<DialogsContainer />} />
+          <Route path="/users" element={<UsersContainer />} />
+          <Route path="/friends" element={<Friends />} />
           <Route path="/news" element={<News />} />
           <Route path="/music" element={<Music />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/users" element={<UsersContainer />} />
           <Route path="/login" element={<Login />} />
         </Routes>
       </div>
