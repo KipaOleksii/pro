@@ -8,7 +8,7 @@ const ProfileInfo = ({ profile, onPhotoSelected }) => {
     return <PreLoader />;
   }
 
-  const { photos, fullName, aboutMe, lookingForAJobDescription } = profile;
+  const { photos, fullName, aboutMe, lookingForAJobDescription, lookingForAJob, contacts } = profile;
 
   return (
     <div className={style.profileContainer}>
@@ -30,7 +30,22 @@ const ProfileInfo = ({ profile, onPhotoSelected }) => {
           <br />
           About me: {aboutMe}
           <br />
+          Looking for a job: {lookingForAJob}
+          <br />
           Description: {lookingForAJobDescription}
+          <br />
+          Contacts:
+          <ul>
+              {Object.keys(contacts).map((key) => (
+                contacts[key] && (
+                  <li key={key}>
+                    <a href={contacts[key]} target="_blank" rel="noopener noreferrer">
+                      {key}: {contacts[key]}
+                    </a>
+                  </li>
+                )
+              ))}
+            </ul>
         </p>
       </div>
     </div>
