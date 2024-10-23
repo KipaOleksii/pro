@@ -40,5 +40,14 @@ export const usersAPI = {
     },
     logout() {
         return instance.delete(`auth/login`);
-    }
+    },
+    savePhoto(photoFile) {
+        const formData = new FormData();  // Создаём объект FormData
+        formData.append("image", photoFile);  // Добавляем файл в FormData под именем "image"
+        return instance.put(`profile/photo`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'  // Указываем, что отправляем данные в формате FormData
+          }
+        });
+      }      
 };
