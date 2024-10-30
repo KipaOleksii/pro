@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import styles from './login.module.css';
 import { connect } from 'react-redux';
 import { login } from '../../redux/auth-reducer';
 
-const LoginForm = ({ login }) => {
-  const [serverError, setServerError] = useState(''); // Состояние для ошибок с сервера
+const LoginForm = ({ login, loginError, captchaUrl }) => {
 
   const initialValues = {
     email: '',
@@ -24,26 +23,8 @@ const LoginForm = ({ login }) => {
   });
 
   const onSubmit = async (values, { setSubmitting }) => {
-    try {
-      const response = await login(values.email, values.password, values.rememberMe);
-  
-      // Проверка ответа от сервера
-      if (response.data.resultCode !== 0) {
-        // Получение сообщения об ошибке
-        const errorMessage = response.data.messages && response.data.messages.length > 0
-          ? response.data.messages[0]
-          : "Ошибка входа"; // Резервное сообщение, если массив пуст
-        setServerError(errorMessage); // Установка ошибки
-      } else {
-        setServerError(""); // Если успешный вход, очищаем ошибку
-      }
-    } catch (error) {
-      // Установка сообщения из catch в случае ошибки
-      setServerError(error.message || "Произошла ошибка. Попробуйте позже.");
-    } finally {
-      // После обработки формы
-      setSubmitting(false);
-    }
+    login(values.email, values.password, values.rememberMe, values.captcha);
+    setSubmitting(false);
   };
   
   return (
@@ -91,9 +72,15 @@ const LoginForm = ({ login }) => {
                 Remember me
               </label>
             </div>
+            {captchaUrl && <img src={captchaUrl} alt="captcha" />}
+            {captchaUrl &&  <Field
+                type="input"
+                id="captcha"
+                name="captcha"
+                className={styles.formInput}
+              />}
 
-            {/* Отображение ошибки от сервера */}
-            {serverError && <div className={styles.serverError}>{serverError}</div>}
+            {loginError && <div className={styles.serverError}>{loginError}</div>}
 
             <button
               type="submit"
@@ -110,7 +97,8 @@ const LoginForm = ({ login }) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuth: state.auth.isAuth
+  isAuth: state.auth.isAuth,
+  loginError: state.auth.loginError,
 });
 
 export default connect(mapStateToProps, { login })(LoginForm);

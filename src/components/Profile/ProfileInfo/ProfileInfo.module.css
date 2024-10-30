@@ -58,4 +58,10 @@
   .uploadButton:hover {
     background-color: rgba(0, 0, 0, 0.9);
   }
-  
+
+  .error {
+    color: red;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: bold;
+  }

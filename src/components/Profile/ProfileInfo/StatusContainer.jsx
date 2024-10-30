@@ -5,13 +5,16 @@ import { getStatus, updateStatus } from "../../../redux/profile-reducer";
 import { connect } from "react-redux";
 
 const StatusContainer = (props) => {
-  const { userId } = useParams();
+  const { userId: paramUserId } = useParams(); // Получаем userId из параметров URL
+  const userId = paramUserId || props.authUserId; // Если userId отсутствует в параметрах URL, используем authUserId
   const [editMode, setEditMode] = useState(false);
   const [status, setStatus] = useState(props.status); // Локальный статус
 
   // Получаем статус при загрузке компонента или смене userId
   useEffect(() => {
-    props.getStatus(userId); // Вызываем getStatus через props
+    if (userId) {
+      props.getStatus(userId); // Вызываем getStatus через props
+    }
   }, [userId, props]);
 
   // Синхронизируем локальное состояние статуса с props
@@ -25,7 +28,7 @@ const StatusContainer = (props) => {
 
   const deactivateEditMode = () => {
     setEditMode(false);
-    props.updateStatus(status); // Вызываем UpdateStatus через props с текущим статусом
+    props.updateStatus(status); // Вызываем updateStatus через props с текущим статусом
   };
 
   const onStatusChange = (e) => {
@@ -45,7 +48,7 @@ const StatusContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   status: state.profilePage.status,
-   // Берем статус из state Redux
+  authUserId: state.auth.id,
 });
 
 export default connect(mapStateToProps, { getStatus, updateStatus })(StatusContainer);

@@ -6,7 +6,7 @@ const Status = ({status, activateEditMode, deactivateEditMode, onStatusChange, e
     <div className={style.status}>
       {!editMode ? (
         <div>
-          <span onDoubleClick={activateEditMode}>{status || "No status"}</span>
+          <span onDoubleClick={activateEditMode}>Status: {status || "No status"}</span>
         </div>
       ) : (
         <div>

@@ -1,11 +1,15 @@
 import { usersAPI } from "../api/api";
 const SET_USER_DATA = "SET_USER_DATA";
+const SET_LOGIN_ERROR = "SET_LOGIN_ERROR";
+const GET_CAPTCHA_URL = "GET_CAPTCHA_URL";
 
 let initialState = {
   id: null,
   email: null,
   login: null,
   isAuth: false,
+  loginError: '',
+  captchaUrl: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -14,7 +18,18 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.data,
+        loginError: '',
       };
+      case GET_CAPTCHA_URL:
+        return {
+         ...state,
+          captchaUrl: action.captchaUrl,
+        };
+      case SET_LOGIN_ERROR:
+        return {
+         ...state,
+          loginError: action.error,
+        };
     default:
       return state;
   }
@@ -23,6 +38,16 @@ const authReducer = (state = initialState, action) => {
 export const setAuthUserData = (id, email, login, isAuth) => ({
   type: SET_USER_DATA,
   data: { id, email, login, isAuth },
+});
+
+export const getCaptchaUrlSubmit = (captchaUrl) => ({
+  type: GET_CAPTCHA_URL,
+  captchaUrl,
+});
+
+export const setLoginError = (error) => ({
+  type: SET_LOGIN_ERROR,
+  error,
 });
 
 export const getLoginData = () => {
@@ -38,22 +63,22 @@ export const getLoginData = () => {
     }
   };
 };
-export const login = (email, password, rememberMe) => {
-  return async (dispatch) => {
-    try {
-      const response = await usersAPI.login(email, password, rememberMe);
-      if (response.data.resultCode === 0) {
-        dispatch(getLoginData());
-      } else {
-        throw new Error(response.data.messages[0] || "Ошибка входа");
-      }
-    } catch (error) {
-      console.error("Ошибка при входе:", error);
-      throw error;
-    }
-  };
-};
 
+export const login = (email, password, rememberMe, captcha) => async (dispatch) => {
+  try {
+    const response = await usersAPI.login(email, password, rememberMe, captcha);
+    if (response.data.resultCode === 0) {
+      dispatch(getLoginData());
+    } else {
+      if (response.data.resultCode === 10) 
+      dispatch(getCaptchaUrl());
+      const errorMessage = response.data.messages[0] || "Ошибка входа";
+      dispatch(setLoginError(errorMessage)); // Устанавливаем ошибку }
+      }}
+      catch (error) {
+    dispatch(setLoginError(error.message || "Произошла ошибка. Попробуйте позже."));
+  }
+};
 
 export const logout = () => {
   return async (dispatch) => {
@@ -67,5 +92,18 @@ export const logout = () => {
     }
   };
 };
+
+export const getCaptchaUrl = () => {
+return async (dispatch) => {
+  try {
+    const response = await usersAPI.getCaptcha();
+    dispatch(getCaptchaUrlSubmit(response.data.url));
+  } catch (error) {
+    console.error("Error fetching captcha URL:", error);
+  }
+}
+}
+
+
 
 export default authReducer;

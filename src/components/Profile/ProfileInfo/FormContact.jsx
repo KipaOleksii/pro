@@ -2,29 +2,30 @@ import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { connect } from 'react-redux';
+import { saveUserData } from '../../../redux/profile-reducer';
+import style from './ProfileInfo.module.css'
+const FormContact = ({ saveUserData, profile, setEditMode, errorMessage }) => {
 
-const FormContact = () => {
   const initialValues = {
-    fullName: '',
-    aboutMe: '',
-    lookingForAJob: false,
-    lookingForAJobDescription: '',
+    fullName: profile.fullName,
+    aboutMe: profile.aboutMe,
+    lookingForAJob: profile.lookingForAJob,
+    lookingForAJobDescription: profile.lookingForAJobDescription,
     contacts: {
-      facebook: '',
-      website: '',
-      vk: '',
-      twitter: '',
-      instagram: '',
-      youtube: '',
-      github: '',
-      mainLink: ''
+      facebook: profile.contacts?.facebook,
+      website: profile.contacts?.website,
+      vk: profile.contacts?.vk,
+      twitter: profile.contacts?.twitter,
+      instagram: profile.contacts?.instagram,
+      youtube: profile.contacts?.youtube,
+      github: profile.contacts?.github,
+      mainLink: profile.contacts?.mainLink,
     },
   };
 
   const validationSchema = Yup.object({
     fullName: Yup.string().required('Full Name is required'),
     aboutMe: Yup.string().required('About Me is required'),
-    lookingForAJobDescription: Yup.string().required('Description is required if looking for a job'),
     contacts: Yup.object().shape({
       facebook: Yup.string().url('Invalid URL'),
       website: Yup.string().url('Invalid URL'),
@@ -37,9 +38,17 @@ const FormContact = () => {
     }),
   });
 
-  const onSubmit = (values, { resetForm }) => {
-    console.log(values);
-    resetForm();
+  const onSubmit = async (values, { resetForm }) => {
+    if (errorMessage) {
+      return;
+    }
+    try {
+      await saveUserData(values);
+      resetForm();
+      setEditMode(false); // Закрываем форму после успешной отправки данных
+    } catch (error) {
+      console.error("Error saving user data:", error);
+    }
   };
 
   return (
@@ -60,7 +69,6 @@ const FormContact = () => {
         <div>
           <label htmlFor="lookingForAJob">Looking for a Job:</label>
           <Field type="checkbox" id="lookingForAJob" name="lookingForAJob" />
-          <ErrorMessage name="lookingForAJob" component="div" />
         </div>
 
         <div>
@@ -79,7 +87,7 @@ const FormContact = () => {
             </div>
           ))}
         </div>
-
+        {errorMessage && <div className={style.error}>{errorMessage}</div>}
         <button type="submit">Submit</button>
       </Form>
     </Formik>
@@ -87,7 +95,8 @@ const FormContact = () => {
 };
 
 const mapStateToProps = (state) => ({
- profile: state.profilePage.profile
+  profile: state.profilePage.profile,
+  errorMessage: state.profilePage.errorMessage,
 });
 
-export default connect(mapStateToProps)(FormContact);
+export default connect(mapStateToProps, { saveUserData })(FormContact);

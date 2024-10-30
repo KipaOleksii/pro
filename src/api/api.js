@@ -35,8 +35,8 @@ export const usersAPI = {
     getUpdateStatus(status) {
         return instance.put(`profile/status`, { status });
     },
-    login(email, password, rememberMe = false) {
-        return instance.post(`auth/login`, {email, password, rememberMe});
+    login(email, password, rememberMe = false, captcha = null) {
+        return instance.post(`auth/login`, {email, password, rememberMe, captcha});
     },
     logout() {
         return instance.delete(`auth/login`);
@@ -49,5 +49,11 @@ export const usersAPI = {
             'Content-Type': 'multipart/form-data'  // Указываем, что отправляем данные в формате FormData
           }
         });
-      }      
+      },
+      saveUserData(profile) {
+        return instance.put(`profile`,profile);
+      },  
+      getCaptcha() {
+        return instance.get(`security/get-captcha-url`);
+      }
 };
